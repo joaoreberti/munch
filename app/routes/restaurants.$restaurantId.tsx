@@ -8,36 +8,32 @@ import {
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { deleteNote, getNote } from "~/models/note.server";
-import { requireUserId } from "~/session.server";
+import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
 
-export const loader = async ({ params, request }: LoaderArgs) => {
-  const userId = await requireUserId(request);
-  invariant(params.noteId, "noteId not found");
+export const loader = async ({ params }: LoaderArgs) => {
+  invariant(params.restaurantId, "restaurantId not found");
 
-  const note = await getNote({ id: params.noteId, userId });
-  if (!note) {
+  const restaurant = await getRestaurant({ id: params.restaurantId });
+  if (!restaurant) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ note });
+  return json({ restaurant });
 };
 
 export const action = async ({ params, request }: ActionArgs) => {
-  const userId = await requireUserId(request);
-  invariant(params.noteId, "noteId not found");
+  invariant(params.restaurantId, "restaurantId not found");
 
-  await deleteNote({ id: params.noteId, userId });
+  await deleteRestaurant({ id: params.restaurantId });
 
-  return redirect("/notes");
+  return redirect("/restaurants");
 };
 
-export default function NoteDetailsPage() {
+export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
     <div>
-      <h3 className="text-2xl font-bold">{data.note.title}</h3>
-      <p className="py-6">{data.note.body}</p>
+      <h3 className="text-2xl font-bold">{data.restaurant.name}</h3>
       <hr className="my-4" />
       <Form method="post">
         <button
@@ -63,7 +59,7 @@ export function ErrorBoundary() {
   }
 
   if (error.status === 404) {
-    return <div>Note not found</div>;
+    return <div>Restaurant not found</div>;
   }
 
   return <div>An unexpected error occurred: {error.statusText}</div>;
