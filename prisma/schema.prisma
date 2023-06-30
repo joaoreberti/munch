@@ -11,28 +11,79 @@ model User {
   id    String @id @default(cuid())
   email String @unique
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
-}
-
-model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
-}
-
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+  RestaurantReview RestaurantReview[]
+  ProductReview    ProductReview[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Restaurant {
+  id           String @id @default(cuid())
+  name         String @unique
+  address      String
+  email        String @unique
+  phone_number String
+
+  Cuisines         Cuisine[]
+  Products         Product[]
+  RestaurantReview RestaurantReview[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cuisine {
+  id   String @id @default(cuid())
+  name String
+
+  Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  restaurantId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  restaurantId String
+
+  ProductReviews ProductReview[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RestaurantReview {
+  id       String @id @default(cuid())
+  commnent String
+  rating   Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  restaurantId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductReview {
+  id       String @id @default(cuid())
+  commnent String
+  rating   Int
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
