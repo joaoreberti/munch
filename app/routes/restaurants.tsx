@@ -9,9 +9,9 @@ export const loader = async ({ request }: LoaderArgs) => {
   const restaurantList = await getRestaurants();
   const restaurantListItems = restaurantList.map((restaurant) => {
     const restaurantAvgRating = (
-      restaurant.RestaurantReview.reduce((total, { rating }) => {
+      restaurant.RestaurantReviews.reduce((total, { rating }) => {
         return total + rating;
-      }, 0) / restaurant.RestaurantReview.length
+      }, 0) / restaurant.RestaurantReviews.length
     ).toFixed(1);
 
     return {
@@ -19,6 +19,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       restaurantAvgRating,
     };
   });
+
   return json({ restaurantListItems });
 };
 

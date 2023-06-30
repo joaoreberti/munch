@@ -18,13 +18,38 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const restaurantAvgRating = (
-    restaurant.RestaurantReview.reduce((total, { rating }) => {
+  let restaurantAvgRating = (
+    restaurant.RestaurantReviews.reduce((total, { rating }) => {
       return total + rating;
-    }, 0) / restaurant.RestaurantReview.length
+    }, 0) / restaurant.RestaurantReviews.length
   ).toFixed(1);
+  if (restaurantAvgRating === "NaN") {
+    restaurantAvgRating = "N/A";
+  }
 
-  return json({ restaurant: { ...restaurant, restaurantAvgRating } });
+  const productsListItems = restaurant.Products.map((product) => {
+    let productAvgRating = (
+      product.ProductReviews.reduce((total, { rating }) => {
+        return total + rating;
+      }, 0) / product.ProductReviews.length
+    ).toFixed(1);
+    if (productAvgRating === "NaN") {
+      productAvgRating = "N/A";
+    }
+    return {
+      ...product,
+      productAvgRating,
+    };
+  });
+
+  const enrichedRestaurant = {
+    ...{ ...restaurant, Products: productsListItems },
+    restaurantAvgRating,
+  };
+
+  return json({
+    enrichedRestaurant,
+  });
 };
 
 export const action = async ({ params, request }: ActionArgs) => {
@@ -37,13 +62,46 @@ export const action = async ({ params, request }: ActionArgs) => {
 
 export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
-
+  for (const products of data.enrichedRestaurant.Products) {
+    console.log(products.ProductReviews);
+  }
   return (
     <div>
-      <h3 className="text-2xl font-bold">{data.restaurant.name}</h3>
+      <h3 className="text-2xl font-bold">{data.enrichedRestaurant.name}</h3>
       <h3 className="text-2xl font-normal">
-        {data.restaurant.restaurantAvgRating}
+        {data.enrichedRestaurant.restaurantAvgRating}
       </h3>
+      {data.enrichedRestaurant.Cuisines.length > 0 ? (
+        <div>
+          {data.enrichedRestaurant.Cuisines.map((cuisine) => {
+            return <span key={cuisine.id}>{cuisine.name}</span>;
+          })}
+        </div>
+      ) : (
+        <></>
+      )}
+      <hr className="my-4" />
+      <ul>
+        {data.enrichedRestaurant.Products.map((product) => {
+          return (
+            <li key={product.id}>
+              <div>{product.name}</div>
+              <div>{product.description}</div>
+              <div>{product.productAvgRating}</div>
+              <div>
+                <picture>
+                  <source
+                    srcSet="https://placehold.co/300x200"
+                    media="(orientation: landscape)"
+                  />
+                  <img src="https://placehold.co/600x400" alt="" />
+                </picture>
+              </div>
+              <div>€{product.price}</div>
+            </li>
+          );
+        })}
+      </ul>
       <hr className="my-4" />
       <Form method="post">
         <button

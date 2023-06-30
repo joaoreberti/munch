@@ -4,14 +4,18 @@ import { prisma } from "~/db.server";
 
 export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   return prisma.restaurant.findFirst({
-    include: { RestaurantReview: true },
+    include: {
+      RestaurantReviews: true,
+      Cuisines: true,
+      Products: { include: { ProductReviews: true } },
+    },
     where: { id },
   });
 }
 
 export function getRestaurants() {
   return prisma.restaurant.findMany({
-    include: { RestaurantReview: true },
+    include: { RestaurantReviews: true },
     orderBy: { updatedAt: "desc" },
   });
 }
