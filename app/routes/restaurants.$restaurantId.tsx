@@ -17,7 +17,14 @@ export const loader = async ({ params }: LoaderArgs) => {
   if (!restaurant) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ restaurant });
+
+  const restaurantAvgRating = (
+    restaurant.RestaurantReview.reduce((total, { rating }) => {
+      return total + rating;
+    }, 0) / restaurant.RestaurantReview.length
+  ).toFixed(1);
+
+  return json({ restaurant: { ...restaurant, restaurantAvgRating } });
 };
 
 export const action = async ({ params, request }: ActionArgs) => {
@@ -34,6 +41,9 @@ export default function RestaurantDetailsPage() {
   return (
     <div>
       <h3 className="text-2xl font-bold">{data.restaurant.name}</h3>
+      <h3 className="text-2xl font-normal">
+        {data.restaurant.restaurantAvgRating}
+      </h3>
       <hr className="my-4" />
       <Form method="post">
         <button

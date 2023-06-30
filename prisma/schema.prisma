@@ -23,7 +23,7 @@ model Restaurant {
   name         String @unique
   address      String
   email        String @unique
-  phone_number String
+  phoneNumber String
 
   Cuisines         Cuisine[]
   Products         Product[]
@@ -37,7 +37,7 @@ model Cuisine {
   id   String @id @default(cuid())
   name String
 
-  Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
   restaurantId String?
 
   createdAt DateTime @default(now())
@@ -60,7 +60,7 @@ model Product {
 
 model RestaurantReview {
   id       String @id @default(cuid())
-  commnent String
+  comment String
   rating   Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -75,7 +75,7 @@ model RestaurantReview {
 
 model ProductReview {
   id       String @id @default(cuid())
-  commnent String
+  comment String
   rating   Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)

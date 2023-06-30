@@ -7,7 +7,19 @@ import { useUser } from "~/utils";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const restaurantList = await getRestaurants();
-  return json({ restaurantList });
+  const restaurantListItems = restaurantList.map((restaurant) => {
+    const restaurantAvgRating = (
+      restaurant.RestaurantReview.reduce((total, { rating }) => {
+        return total + rating;
+      }, 0) / restaurant.RestaurantReview.length
+    ).toFixed(1);
+
+    return {
+      ...restaurant,
+      restaurantAvgRating,
+    };
+  });
+  return json({ restaurantListItems });
 };
 
 export default function RestaurantsPage() {
@@ -39,11 +51,11 @@ export default function RestaurantsPage() {
 
           <hr />
 
-          {data.restaurantList.length === 0 ? (
+          {data.restaurantListItems.length === 0 ? (
             <p className="p-4">No notes yet</p>
           ) : (
             <ol>
-              {data.restaurantList.map((restaurant) => (
+              {data.restaurantListItems.map((restaurant) => (
                 <li key={restaurant.id}>
                   <NavLink
                     className={({ isActive }) =>
@@ -52,6 +64,7 @@ export default function RestaurantsPage() {
                     to={restaurant.id}
                   >
                     📝 {restaurant.name}
+                    rating: {restaurant.restaurantAvgRating}
                   </NavLink>
                 </li>
               ))}

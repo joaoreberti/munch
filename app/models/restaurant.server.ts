@@ -4,13 +4,14 @@ import { prisma } from "~/db.server";
 
 export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   return prisma.restaurant.findFirst({
-    select: { id: true, name: true },
+    include: { RestaurantReview: true },
+    where: { id },
   });
 }
 
 export function getRestaurants() {
   return prisma.restaurant.findMany({
-    select: { id: true, name: true },
+    include: { RestaurantReview: true },
     orderBy: { updatedAt: "desc" },
   });
 }
@@ -19,14 +20,14 @@ export function createRestaurant({
   name,
   email,
   address,
-  phone_number,
-}: Pick<Restaurant, "name" | "email" | "address" | "phone_number">) {
+  phoneNumber,
+}: Pick<Restaurant, "name" | "email" | "address" | "phoneNumber">) {
   return prisma.restaurant.create({
     data: {
       name,
       email,
       address,
-      phone_number,
+      phoneNumber,
     },
   });
 }
