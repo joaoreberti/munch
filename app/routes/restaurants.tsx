@@ -56,9 +56,10 @@ export default function RestaurantsPage() {
             <p className="p-4">No notes yet</p>
           ) : (
             <ol>
-              {data.restaurantListItems.map((restaurant) => (
+              {data.restaurantListItems.map((restaurant, index) => (
                 <li key={restaurant.id}>
                   <NavLink
+                    data-testid={`restaurant-link-${index}`}
                     className={({ isActive }) =>
                       `block border-b p-4 text-xl ${isActive ? "bg-white" : ""}`
                     }
