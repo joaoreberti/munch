@@ -16,7 +16,7 @@ describe("logging in, logging out", () => {
     userRegistrationAndLogin();
 
     cy.findByRole("link", { name: /restaurants/i }).click();
-    // cy.findByTestId("restaurant-link-0").click();
+    cy.findByTestId("restaurant-link-0").click();
 
     userLogout();
   });

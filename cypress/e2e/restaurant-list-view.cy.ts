@@ -1,6 +1,6 @@
 import { userLogout, userRegistrationAndLogin } from "./utils";
 
-describe("Review flows", () => {
+describe("While on the restaurant list view", () => {
   beforeEach(() => {
     userRegistrationAndLogin();
   });
@@ -9,11 +9,12 @@ describe("Review flows", () => {
     cy.cleanupUser();
   });
 
-  it("visit restaurants page and logout", () => {
+  it("should allow us to search by restaurant", () => {
     cy.findByRole("link", { name: /restaurants/i }).click();
+    // cy.findByRole("textbox", { name: /search/i }).type("pizzeria");
   });
 
-  it("should allow you to click on a restaurant and see its details", () => {
+  it("should allow us to retrieve restaurants by cuisine", () => {
     cy.findByRole("link", { name: /restaurants/i }).click();
     cy.findByTestId("restaurant-link-0").click();
   });

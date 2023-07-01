@@ -1,4 +1,4 @@
-import type { Restaurant } from "@prisma/client";
+import type { Prisma, Restaurant, RestaurantReview } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -13,7 +13,11 @@ export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   });
 }
 
-export function getRestaurants() {
+export function getRestaurants(): Prisma.PrismaPromise<
+  (Restaurant & {
+    RestaurantReviews: RestaurantReview[];
+  })[]
+> {
   return prisma.restaurant.findMany({
     include: { RestaurantReviews: true },
     orderBy: { updatedAt: "desc" },

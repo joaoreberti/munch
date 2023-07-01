@@ -62,56 +62,55 @@ export const action = async ({ params, request }: ActionArgs) => {
 
 export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
-  for (const products of data.enrichedRestaurant.Products) {
-    console.log(products.ProductReviews);
-  }
   return (
-    <div>
-      <h3 className="text-2xl font-bold">{data.enrichedRestaurant.name}</h3>
-      <h3 className="text-2xl font-normal">
-        {data.enrichedRestaurant.restaurantAvgRating}
-      </h3>
-      {data.enrichedRestaurant.Cuisines.length > 0 ? (
-        <div>
-          {data.enrichedRestaurant.Cuisines.map((cuisine) => {
-            return <span key={cuisine.id}>{cuisine.name}</span>;
+    <main>
+      <div>
+        <h3 className="text-2xl font-bold">{data.enrichedRestaurant.name}</h3>
+        <h3 className="text-2xl font-normal">
+          {data.enrichedRestaurant.restaurantAvgRating}
+        </h3>
+        {data.enrichedRestaurant.Cuisines.length > 0 ? (
+          <div>
+            {data.enrichedRestaurant.Cuisines.map((cuisine) => {
+              return <span key={cuisine.id}>{cuisine.name}</span>;
+            })}
+          </div>
+        ) : (
+          <></>
+        )}
+        <hr className="my-4" />
+        <ul>
+          {data.enrichedRestaurant.Products.map((product) => {
+            return (
+              <li key={product.id}>
+                <div>{product.name}</div>
+                <div>{product.description}</div>
+                <div>{product.productAvgRating}</div>
+                <div>
+                  <picture>
+                    <source
+                      srcSet="https://placehold.co/300x200"
+                      media="(orientation: landscape)"
+                    />
+                    <img src="https://placehold.co/600x400" alt="" />
+                  </picture>
+                </div>
+                <div>€{product.price}</div>
+              </li>
+            );
           })}
-        </div>
-      ) : (
-        <></>
-      )}
-      <hr className="my-4" />
-      <ul>
-        {data.enrichedRestaurant.Products.map((product) => {
-          return (
-            <li key={product.id}>
-              <div>{product.name}</div>
-              <div>{product.description}</div>
-              <div>{product.productAvgRating}</div>
-              <div>
-                <picture>
-                  <source
-                    srcSet="https://placehold.co/300x200"
-                    media="(orientation: landscape)"
-                  />
-                  <img src="https://placehold.co/600x400" alt="" />
-                </picture>
-              </div>
-              <div>€{product.price}</div>
-            </li>
-          );
-        })}
-      </ul>
-      <hr className="my-4" />
-      <Form method="post">
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
-          Delete
-        </button>
-      </Form>
-    </div>
+        </ul>
+        <hr className="my-4" />
+        <Form method="post">
+          <button
+            type="submit"
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
+          >
+            Delete
+          </button>
+        </Form>
+      </div>
+    </main>
   );
 }
 
