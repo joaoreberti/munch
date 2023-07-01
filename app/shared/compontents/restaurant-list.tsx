@@ -1,5 +1,6 @@
 import { NavLink } from "@remix-run/react";
 import RatingsWidget from "./ratings-widgent";
+import Review from "./review";
 
 export default function RestaurantList({
   restaurants,
@@ -21,6 +22,10 @@ export default function RestaurantList({
       restaurantId: string;
       createdAt: string;
       updatedAt: string;
+      user: { name: string };
+    }[];
+    Cuisines: {
+      name: string;
     }[];
   }[];
 }) {
@@ -45,6 +50,7 @@ export default function RestaurantList({
               <h3 className="mt-6 text-sm font-medium text-gray-900">
                 {restaurant.name}
               </h3>
+              <h4>{restaurant.Cuisines[0].name}</h4>
               <dl className="mt-1 flex flex-grow flex-col justify-between">
                 <dt className="sr-only">Rating</dt>
                 <dd className="text-md text-gray-500">
@@ -53,11 +59,28 @@ export default function RestaurantList({
                   ></RatingsWidget>
                 </dd>
                 <dt className="sr-only">Number of reviews</dt>
-                <dd className="mt-3 text-sm text-gray-500">Number of reviews: {restaurant.RestaurantReviews.length > 0 ? restaurant.RestaurantReviews.length : "N/A" }</dd>
+                <dd className="mt-3 text-sm text-gray-500">
+                  Number of reviews:{" "}
+                  {restaurant.RestaurantReviews.length > 0
+                    ? restaurant.RestaurantReviews.length
+                    : "N/A"}
+                </dd>
 
                 <dt className="sr-only">Address</dt>
                 <dd className="mt-3">{restaurant.address}</dd>
               </dl>
+              {restaurant.RestaurantReviews.length > 0 && (
+                <>
+                  <hr />
+                  <Review
+                    restaurantReview={
+                      restaurant.RestaurantReviews[
+                        restaurant.RestaurantReviews.length - 1
+                      ]
+                    }
+                  />
+                </>
+              )}
             </div>
           </li>
         </NavLink>

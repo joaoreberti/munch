@@ -6,6 +6,7 @@ import { Factory } from "fishery";
 export const userFactory = Factory.define<User>(({ transientParams }) => ({
   id: transientParams.id ?? randomUUID(),
   email: transientParams.email ?? faker.internet.email(),
+  name: transientParams.name ?? faker.person.firstName(),
   createdAt: new Date(),
   updatedAt: new Date(),
 }));
