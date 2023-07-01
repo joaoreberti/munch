@@ -16,6 +16,8 @@ export function userRegistrationAndLogin() {
 }
 
 export function userLogout() {
-  cy.findByRole("button", { name: /logout/i }).click();
+  cy.findByTestId("profile-menu-button").click();
+
+  cy.findByRole("button", { name: /Sign out/i }).click();
   cy.findByRole("link", { name: /log in/i });
 }
