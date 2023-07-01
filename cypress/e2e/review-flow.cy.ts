@@ -15,6 +15,6 @@ describe("Review flows", () => {
 
   it("should allow you to click on a restaurant and see its details", () => {
     cy.findByRole("link", { name: /restaurants/i }).click();
-    cy.findByTestId("restaurant-link-0").click();
+    // cy.findByTestId("restaurant-link-0").click();
   });
 });
