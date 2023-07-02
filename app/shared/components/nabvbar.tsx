@@ -41,10 +41,10 @@ function classNames(...classes: string[]) {
 
 export default function NavBar() {
   return (
-    <Disclosure as="header" className="bg-gray-800">
+    <Disclosure as="header" className="bg-yellow-800">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-700 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-yellow-700 lg:px-8">
             <div className="relative flex h-16 justify-between">
               <div className="relative z-10 flex px-2 lg:px-0">
                 <div className="flex flex-shrink-0 items-center">
@@ -65,14 +65,14 @@ export default function NavBar() {
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <MagnifyingGlassIcon
-                        className="h-5 w-5 text-gray-400"
+                        className="h-5 w-5 text-yellow-400"
                         aria-hidden="true"
                       />
                     </div>
                     <input
                       id="search"
                       name="search"
-                      className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 bg-yellow-700 py-1.5 pl-10 pr-3 text-yellow-300 placeholder:text-yellow-400 focus:bg-white focus:text-yellow-900 focus:ring-0 focus:placeholder:text-yellow-500 sm:text-sm sm:leading-6"
                       placeholder="Search"
                       type="search"
                     />
@@ -86,7 +86,7 @@ export default function NavBar() {
 
                 <Disclosure.Button
                   data-testid="profile-menu-button"
-                  className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  className="inline-flex items-center justify-center rounded-md p-2 text-yellow-400 hover:bg-yellow-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 >
                   <span className="sr-only">Open menu</span>
                   {open ? (
@@ -99,7 +99,7 @@ export default function NavBar() {
               <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
                 <button
                   type="button"
-                  className="flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="flex-shrink-0 rounded-full bg-yellow-800 p-1 text-yellow-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800"
                 >
                   <span className="sr-only">View notifications</span>
                   {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
@@ -108,7 +108,7 @@ export default function NavBar() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
                   <div>
-                    <Menu.Button className="flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="flex rounded-full bg-yellow-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800">
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
@@ -139,8 +139,8 @@ export default function NavBar() {
                                 type="submit"
                                 name={item.name}
                                 className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block w-full px-4 py-2 text-left text-sm text-gray-700"
+                                  active ? "bg-yellow-100" : "",
+                                  "block w-full px-4 py-2 text-left text-sm text-yellow-700"
                                 )}
                               >
                                 {item.name}
@@ -157,7 +157,7 @@ export default function NavBar() {
           </div>
 
           <Disclosure.Panel as="nav" className="lg:hidden" aria-label="Global">
-            <div className="border-t border-gray-700 pb-3 pt-4">
+            <div className="border-t border-yellow-700 pb-3 pt-4">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <img
@@ -170,13 +170,13 @@ export default function NavBar() {
                   <div className="text-base font-medium text-white">
                     {user.name}
                   </div>
-                  <div className="text-sm font-medium text-gray-400">
+                  <div className="text-sm font-medium text-yellow-400">
                     {user.email}
                   </div>
                 </div>
                 <button
                   type="button"
-                  className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="ml-auto flex-shrink-0 rounded-full bg-yellow-800 p-1 text-yellow-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -192,7 +192,7 @@ export default function NavBar() {
                     <button
                       type="submit"
                       name={item.name}
-                      className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
+                      className="rounded bg-yellow-600 px-4 py-2 text-blue-100 hover:bg-yellow-500 active:bg-yellow-600"
                     >
                       {item.name}
                     </button>

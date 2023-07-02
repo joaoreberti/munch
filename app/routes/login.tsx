@@ -15,9 +15,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
-  console.log({ formData });
   const email = formData.get("email");
-  console.log({ email });
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
 

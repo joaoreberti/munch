@@ -2,8 +2,8 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { RestaurantsFilter, getRestaurants } from "../models/restaurant.server";
-import Filters from "../shared/compontents/filters";
-import RestaurantList from "../shared/compontents/restaurant-list";
+import Filters from "../shared/components/filters";
+import RestaurantList from "../shared/components/restaurant-list";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);

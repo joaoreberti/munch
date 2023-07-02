@@ -35,7 +35,6 @@ export default function Filters({ cuisines }: { cuisines: string[] }) {
       : setCuisinesState([...cuisinesState, option.value]);
   }
 
-  console.log({ cuisines });
   return (
     <div className="bg-white">
       <div>

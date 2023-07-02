@@ -2,7 +2,7 @@ import { Outlet } from "@remix-run/react";
 
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import NavBar from "../shared/compontents/nabvbar";
+import NavBar from "../shared/components/nabvbar";
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();

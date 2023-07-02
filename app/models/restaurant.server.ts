@@ -13,9 +13,9 @@ export class RestaurantsFilter {
 export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   return prisma.restaurant.findFirst({
     include: {
-      RestaurantReviews: true,
+      RestaurantReviews: { include: { user: true } },
       Cuisines: true,
-      Products: { include: { ProductReviews: true } },
+      Products: { include: { ProductReviews: { include: { user: true } } } },
     },
     where: { id },
   });
