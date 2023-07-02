@@ -1,6 +1,20 @@
-import { Form, Outlet } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 
+import type { ActionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import NavBar from "../shared/compontents/nabvbar";
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData();
+  const cuisines = formData.getAll("Cuisine");
+
+  const url = new URL(request.url);
+  for (const cuisine of cuisines) {
+    url.searchParams.append("Cuisine", cuisine.toString());
+  }
+
+  return redirect(url.pathname + url.search);
+};
 
 export default function RestaurantsPage() {
   // const user = useUser();
@@ -13,12 +27,3 @@ export default function RestaurantsPage() {
     </div>
   );
 }
-
-<Form action="/logout" method="post">
-  <button
-    type="submit"
-    className="rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600"
-  >
-    Logout
-  </button>
-</Form>;

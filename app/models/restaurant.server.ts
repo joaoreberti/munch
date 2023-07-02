@@ -1,6 +1,14 @@
 import type { Restaurant } from "@prisma/client";
 
 import { prisma } from "~/db.server";
+import { removeNullValues } from "./utils";
+export class RestaurantsFilter {
+  cuisine?: string[];
+
+  static asQuery(filter: RestaurantsFilter): any {
+    return removeNullValues(filter);
+  }
+}
 
 export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   return prisma.restaurant.findFirst({
@@ -13,7 +21,18 @@ export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   });
 }
 
-export function getRestaurants() {
+export function getRestaurants(filter: RestaurantsFilter) {
+  if (filter.cuisine?.length) {
+    return prisma.restaurant.findMany({
+      include: {
+        RestaurantReviews: { include: { user: true } },
+        Cuisines: true,
+      },
+      orderBy: { updatedAt: "desc" },
+      where: { Cuisines: { some: { name: { in: filter.cuisine } } } },
+    });
+  }
+
   return prisma.restaurant.findMany({
     include: {
       RestaurantReviews: { include: { user: true } },
