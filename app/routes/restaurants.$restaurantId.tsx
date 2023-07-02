@@ -1,15 +1,11 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useRouteError
-} from "@remix-run/react";
+import { isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
-import ProductList from "../shared/components/product-list";
-import RestaurantCard from "../shared/components/restaurant-card";
+import RestaurantPage from "../shared/components/restaurant-detail";
+import Modal from "../shared/components/modal";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.restaurantId, "restaurantId not found");
@@ -63,15 +59,17 @@ export const action = async ({ params, request }: ActionArgs) => {
 
 export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
-
+  
   return (
     <main>
       <div className="flex">
-        <aside className="mx-4">
-          <RestaurantCard restaurant={data.enrichedRestaurant}></RestaurantCard>
+        <RestaurantPage restaurant={data.enrichedRestaurant}></RestaurantPage>
+        <Modal></Modal>
+        {/* <aside className="mx-4">
+          <RestaurantCard addReview={true} restaurant={data.enrichedRestaurant}></RestaurantCard>
         </aside>
-        <ProductList products={data.enrichedRestaurant.Products}></ProductList>
-        <hr className="my-4" />
+       
+        <hr className="my-4" /> */}
         {/* <Form method="post">
           <button
             type="submit"

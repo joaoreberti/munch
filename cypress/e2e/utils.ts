@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker";
 export function userRegistrationAndLogin() {
   const loginForm = {
     email: `${faker.internet.userName()}@example.com`,
+    name: faker.internet.displayName(),
   };
 
   cy.then(() => ({ email: loginForm.email })).as("user");
@@ -12,6 +13,9 @@ export function userRegistrationAndLogin() {
   cy.findByRole("link", { name: /sign up/i }).click();
 
   cy.findByRole("textbox", { name: /email/i }).type(loginForm.email);
+
+  cy.findByRole("textbox", { name: /name/i }).type(loginForm.name);
+
   cy.findByRole("button", { name: /create account/i }).click();
 }
 

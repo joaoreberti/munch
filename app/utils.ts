@@ -1,4 +1,4 @@
-import { useMatches } from "@remix-run/react";
+import { useMatches, useOutletContext } from "@remix-run/react";
 import { useMemo } from "react";
 
 import type { User } from "~/models/user.server";
@@ -68,4 +68,22 @@ export function useUser(): User {
 
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
+}
+
+type ContextType = {
+  modal: { open: boolean; id: string, type: "restaurant" | "product" | "" };
+  setModal: ({
+    open,
+    id,
+    type,
+  }: {
+    open: boolean;
+    id: string;
+    type: "restaurant" | "product" | "";
+  }) => void;
+};
+
+
+export function useModal() {
+  return useOutletContext<ContextType>();
 }

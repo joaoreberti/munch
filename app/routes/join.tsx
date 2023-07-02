@@ -16,10 +16,21 @@ export const loader = async ({ request }: LoaderArgs) => {
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData();
   const email = formData.get("email");
+  const name = formData.get("name");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   if (!validateEmail(email)) {
-    return json({ errors: { email: "Email is invalid" } }, { status: 400 });
+    return json(
+      { errors: { email: "Email is invalid", name: "" } },
+      { status: 400 }
+    );
+  }
+
+  if (!name?.toString()  || name.toString() === "") {
+    return json(
+      { errors: { name: "A name is needed", email: "" } },
+      { status: 400 }
+    );
   }
 
   const existingUser = await getUserByEmail(email);
@@ -28,13 +39,14 @@ export const action = async ({ request }: ActionArgs) => {
       {
         errors: {
           email: "A user already exists with this email",
+          name: "",
         },
       },
       { status: 400 }
     );
   }
 
-  const user = await createUser(email);
+  const user = await createUser(email, name?.toString());
 
   return createUserSession({
     redirectTo,
@@ -51,9 +63,13 @@ export default function Join() {
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (actionData?.errors?.email) {
+      emailRef.current?.focus();
+    }
+    if (actionData?.errors?.name) {
       emailRef.current?.focus();
     }
   }, [actionData]);
@@ -85,6 +101,33 @@ export default function Join() {
               {actionData?.errors?.email ? (
                 <div className="pt-1 text-red-700" id="email-error">
                   {actionData.errors.email}
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Full Name
+            </label>
+            <div className="mt-1">
+              <input
+                ref={nameRef}
+                id="name"
+                required
+                autoFocus={true}
+                name="name"
+                type="name"
+                autoComplete="name"
+                aria-invalid={actionData?.errors?.name ? true : undefined}
+                aria-describedby="name-error"
+                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+              />
+              {actionData?.errors?.name ? (
+                <div className="pt-1 text-red-700" id="name-error">
+                  {actionData.errors.name}
                 </div>
               ) : null}
             </div>

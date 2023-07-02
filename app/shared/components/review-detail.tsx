@@ -6,6 +6,7 @@ function classNames(...classes: string[]) {
 
 export default function ReviewDetail({
   review,
+  addReview,
 }: {
   review: {
     id: string;
@@ -16,6 +17,7 @@ export default function ReviewDetail({
     updatedAt: string;
     user: { name: string };
   };
+  addReview: boolean;
 }) {
   // const [showReviewModal, setShowReviewModal] = useState(false);
 
@@ -54,19 +56,26 @@ export default function ReviewDetail({
           className="mt-4 space-y-6 text-base italic text-gray-600"
           dangerouslySetInnerHTML={{ __html: review.comment }}
         />
-        <hr className="mr-3 mt-5" />
-        <button
-          type="button"
-          className="sm:align-center items-center gap-x-2 rounded-md bg-yellow-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:flex-row lg:inline-flex"
-          onClick={() => {
-            console.log("clicked");
-          }}
-        >
-          <div>Leave your own review</div>
-          <div className="sm:hidden lg:flex">
-            <PlusCircleIcon className="h-5 w-5" aria-hidden="true" />
-          </div>
-        </button>
+        {addReview ? (
+          <>
+            {" "}
+            <hr className="mr-3 mt-5" />
+            <button
+              type="button"
+              className="sm:align-center items-center gap-x-2 rounded-md bg-yellow-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:flex-row lg:inline-flex"
+              onClick={() => {
+                console.log("clicked");
+              }}
+            >
+              <div>Leave your own review</div>
+              <div className="sm:hidden lg:flex">
+                <PlusCircleIcon className="h-5 w-5" aria-hidden="true" />
+              </div>
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

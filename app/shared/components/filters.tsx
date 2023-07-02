@@ -157,7 +157,7 @@ export default function Filters({ cuisines }: { cuisines: string[] }) {
           </Dialog>
         </Transition.Root>
 
-        <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+        <div className="pt-12 lg:grid lg:grid-cols-2 lg:gap-x-2 xl:grid-cols-2">
           <aside data-testid="mobile-filter-button">
             <h2 className="sr-only">Filters</h2>
 

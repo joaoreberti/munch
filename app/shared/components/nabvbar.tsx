@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -41,7 +27,7 @@ function classNames(...classes: string[]) {
 
 export default function NavBar() {
   return (
-    <Disclosure as="header" className="bg-yellow-800">
+    <Disclosure as="header" className="bg-yellow-800 sticky top-0 z-50" >
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-yellow-700 lg:px-8">
@@ -156,7 +142,7 @@ export default function NavBar() {
             </div>
           </div>
 
-          <Disclosure.Panel as="nav" className="lg:hidden" aria-label="Global">
+          <Disclosure.Panel as="nav" className="lg:hidden sticky top-0 z-50" aria-label="Global">
             <div className="border-t border-yellow-700 pb-3 pt-4">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">

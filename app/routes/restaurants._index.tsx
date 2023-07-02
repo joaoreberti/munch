@@ -32,15 +32,19 @@ export default function RestaurantIndexPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className="m-2 flex">
-      <div className="flex-1">
+    <div className="m-2 flex container" >
+      <div className="sticky top-0">
         <Filters cuisines={data.cuisines}></Filters>
       </div>
-      {data.restaurantListItems.length === 0 ? (
-        <p className="p-4">No restaurants yet</p>
-      ) : (
-        <RestaurantList restaurants={data.restaurantListItems}></RestaurantList>
-      )}
+      <div className="mx-auto">
+        {data.restaurantListItems.length === 0 ? (
+          <p className="p-4">No restaurants yet</p>
+        ) : (
+          <RestaurantList
+            restaurants={data.restaurantListItems}
+          ></RestaurantList>
+        )}
+      </div>
     </div>
   );
 }

@@ -36,7 +36,10 @@ export default function RestaurantList({
           key={restaurant.id}
           to={restaurant.id}
         >
-          <RestaurantCard restaurant={restaurant}></RestaurantCard>
+          <RestaurantCard
+            addReview={false}
+            restaurant={restaurant}
+          ></RestaurantCard>
         </NavLink>
       ))}
     </ul>
