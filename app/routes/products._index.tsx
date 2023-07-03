@@ -3,23 +3,18 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { ProductFilter, getProducts } from "../models/product.server";
 import ProductList from "../shared/components/product-list";
+import { calculateAvgRating } from "../helpers/calculate-avg-rating";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
-
   const restaurantId = url.searchParams.get("restaurantId");
-  console.log({ restaurantId });
+
   const productList = await getProducts(
     ProductFilter.asQuery({ restaurantId })
   );
 
   const productListItems = productList.map((product) => {
-    const productAvgRating = (
-      product.ProductReviews.reduce((total, { rating }) => {
-        return total + rating;
-      }, 0) / product.ProductReviews.length
-    ).toFixed(1);
-
+    const productAvgRating = calculateAvgRating(product.ProductReviews);
     return {
       ...product,
       productAvgRating,

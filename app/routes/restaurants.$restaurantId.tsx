@@ -1,11 +1,16 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
 import RestaurantPage from "../shared/components/restaurant-detail";
 import Modal from "../shared/components/modal";
+import { calculateAvgRating } from "../helpers/calculate-avg-rating";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.restaurantId, "restaurantId not found");
@@ -15,24 +20,11 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  let restaurantAvgRating = (
-    restaurant.RestaurantReviews.reduce((total, { rating }) => {
-      return total + rating;
-    }, 0) / restaurant.RestaurantReviews.length
-  ).toFixed(1);
-  if (restaurantAvgRating === "NaN") {
-    restaurantAvgRating = "N/A";
-  }
+  const restaurantAvgRating = calculateAvgRating(restaurant.RestaurantReviews);
 
   const productsListItems = restaurant.Products.map((product) => {
-    let productAvgRating = (
-      product.ProductReviews.reduce((total, { rating }) => {
-        return total + rating;
-      }, 0) / product.ProductReviews.length
-    ).toFixed(1);
-    if (productAvgRating === "NaN") {
-      productAvgRating = "N/A";
-    }
+    const productAvgRating = calculateAvgRating(product.ProductReviews);
+
     return {
       ...product,
       productAvgRating,
@@ -59,7 +51,7 @@ export const action = async ({ params, request }: ActionArgs) => {
 
 export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
-  
+
   return (
     <main>
       <div className="flex">

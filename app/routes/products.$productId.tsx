@@ -4,6 +4,7 @@ import { getProduct } from "../models/product.server";
 import { useLoaderData } from "@remix-run/react";
 import ProductPage from "../shared/components/product-detail";
 import Modal from "../shared/components/modal";
+import { calculateAvgRating } from "../helpers/calculate-avg-rating";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.productId, "productId not found");
@@ -12,11 +13,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   if (!product) {
     throw new Response("Not Found", { status: 404 });
   }
-  const productAvgRating = (
-    product.ProductReviews.reduce((total, { rating }) => {
-      return total + rating;
-    }, 0) / product.ProductReviews.length
-  ).toFixed(1);
+  const productAvgRating = calculateAvgRating(product.ProductReviews);
 
   const enrichedProduct = {
     ...product,

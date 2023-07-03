@@ -4,6 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { RestaurantsFilter, getRestaurants } from "../models/restaurant.server";
 import Filters from "../shared/components/filters";
 import RestaurantList from "../shared/components/restaurant-list";
+import { calculateAvgRating } from "../helpers/calculate-avg-rating";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
@@ -13,11 +14,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     RestaurantsFilter.asQuery({ cuisine: cuisines })
   );
   const restaurantListItems = restaurantList.map((restaurant) => {
-    const restaurantAvgRating = (
-      restaurant.RestaurantReviews.reduce((total, { rating }) => {
-        return total + rating;
-      }, 0) / restaurant.RestaurantReviews.length
-    ).toFixed(1);
+    const restaurantAvgRating = calculateAvgRating(restaurant.RestaurantReviews);
 
     return {
       ...restaurant,
@@ -32,7 +29,7 @@ export default function RestaurantIndexPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className="m-2 flex container" >
+    <div className="container m-2 flex">
       <div className="sticky top-0">
         <Filters cuisines={data.cuisines}></Filters>
       </div>
