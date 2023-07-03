@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Form } from "@remix-run/react";
 import { Fragment } from "react";
-import { useUser } from "../../utils";
+import { classNames, useUser } from "../../utils";
 
 const userNavigation: {
   name: string;
@@ -14,9 +14,6 @@ const userNavigation: {
   { name: "Sign out", action: "/logout", method: "post" },
 ];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function NavBar() {
   const user = useUser();

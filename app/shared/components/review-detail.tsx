@@ -1,8 +1,5 @@
 import { PlusCircleIcon, StarIcon } from "@heroicons/react/20/solid";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../utils";
 
 export default function ReviewDetail({
   review,

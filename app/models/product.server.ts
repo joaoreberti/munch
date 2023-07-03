@@ -21,7 +21,6 @@ export function getProduct({ id }: Pick<Product, "id">) {
 }
 
 export function getProducts(filter: ProductFilter) {
-  console.log("filter", filter);
   if (filter.restaurantId) {
     return prisma.product.findMany({
       include: {

@@ -1,12 +1,8 @@
 import { Tab } from "@headlessui/react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
-import { useModal } from "../../utils";
+import { classNames, useModal } from "../../utils";
 import { Link } from "@remix-run/react";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function ProductPage({
   product,

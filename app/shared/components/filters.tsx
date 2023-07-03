@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { Cuisines } from "../../models/types/cuisine-enum";
 import { Form } from "@remix-run/react";
+import { classNames } from "../../utils";
 
 const filters = [
   {
@@ -18,10 +19,6 @@ const filters = [
     ],
   },
 ];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Filters({ cuisines }: { cuisines: string[] }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);

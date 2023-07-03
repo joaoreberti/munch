@@ -16,7 +16,14 @@ export const action = async ({ request }: ActionArgs) => {
   const type = formData.get("type");
   const id = formData.get("id");
 
-  if (!rating || !comment || !type || !id) return redirect("/");
+  if (
+    !rating ||
+    !comment ||
+    !type ||
+    !id ||
+    (type !== "product" && type !== "restaurant")
+  )
+    return redirect("/");
 
   if (type === "product") {
     await createProductReview({
@@ -26,14 +33,14 @@ export const action = async ({ request }: ActionArgs) => {
       userId,
     });
   }
-    if (type === "restaurant") { 
+  if (type === "restaurant") {
     await createRestaurantReview({
       restaurantId: id.toString(),
       rating: Number(rating),
       comment: comment.toString(),
       userId,
     });
-    }
+  }
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   return redirect(redirectTo);

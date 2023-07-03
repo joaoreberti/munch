@@ -87,3 +87,7 @@ type ContextType = {
 export function useModal() {
   return useOutletContext<ContextType>();
 }
+
+export function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}

@@ -1,9 +1,6 @@
 import { HandThumbUpIcon, HandThumbDownIcon } from "@heroicons/react/20/solid";
 import { Link } from "@remix-run/react";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../utils";
 
 export default function ReviewFeed({
   reviews,
