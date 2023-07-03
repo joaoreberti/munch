@@ -37,7 +37,6 @@ export default function RestaurantList({
           to={restaurant.id}
         >
           <RestaurantCard
-            addReview={false}
             restaurant={restaurant}
           ></RestaurantCard>
         </Link>

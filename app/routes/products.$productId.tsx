@@ -23,7 +23,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({ enrichedProduct });
 };
 
-export default function RestaurantIndexPage() {
+export default function ProductIndexPage() {
   const data = useLoaderData<typeof loader>();
 
   return (

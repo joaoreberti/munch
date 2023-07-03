@@ -1,7 +1,7 @@
 import type { Cuisine } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { Factory } from "fishery";
-import { Cuisines } from "../../app/models/types/cuisine-enum";
+import { Cuisines } from "../../app/models/types/cuisine.enum";
 
 function pickRandomCuisine() {
   const number = Math.floor(Math.random() * 4);

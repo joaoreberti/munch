@@ -4,6 +4,7 @@ import { getUserId } from "../session.server";
 import { createProductReview } from "../models/product-review.server";
 import { safeRedirect } from "../utils";
 import { createRestaurantReview } from "../models/restaurant-review.server";
+import { ReviewType } from "../models/types/review-type.enum";
 
 export const action = async ({ request }: ActionArgs) => {
   const userId = await getUserId(request);
@@ -11,36 +12,40 @@ export const action = async ({ request }: ActionArgs) => {
 
   const formData = await request.formData();
 
-  const rating = formData.get("rating");
-  const comment = formData.get("comment");
-  const type = formData.get("type");
-  const id = formData.get("id");
+  const rating = formData.get("rating")?.toString();
+
+  const comment = formData.get("comment")?.toString();
+  const type = formData.get("type")?.toString();
+  const id = formData.get("id")?.toString();
 
   if (
     !rating ||
-    !comment ||
+    typeof comment !== "string" ||
     !type ||
     !id ||
-    (type !== "product" && type !== "restaurant")
+    ![ReviewType.product, ReviewType.restaurant].includes(type as ReviewType)
   )
     return redirect("/");
 
-  if (type === "product") {
+  const reviewAttributes = {
+    rating: Number(rating),
+    comment: comment,
+    userId,
+  };
+
+  if (type === ReviewType.product) {
     await createProductReview({
-      productId: id.toString(),
-      rating: Number(rating),
-      comment: comment.toString(),
-      userId,
+      ...reviewAttributes,
+      productId: id,
     });
   }
-  if (type === "restaurant") {
+  if (type === ReviewType.restaurant) {
     await createRestaurantReview({
-      restaurantId: id.toString(),
-      rating: Number(rating),
-      comment: comment.toString(),
-      userId,
+      ...reviewAttributes,
+      restaurantId: id,
     });
   }
+  console.log({ reviewAttributes });
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   return redirect(redirectTo);

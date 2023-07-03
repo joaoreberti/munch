@@ -1,8 +1,8 @@
-import type { ProductReview, RestaurantReview } from "@prisma/client";
+type RatingEntity = {
+  rating: number;
+};
 
-export function calculateAvgRating(
-  reviews: ProductReview[] | RestaurantReview[]
-) {
+export function calculateAvgRating<T extends RatingEntity>(reviews: T[]) {
   if (!reviews.length) {
     return "N/A";
   }

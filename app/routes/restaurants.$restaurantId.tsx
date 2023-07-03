@@ -7,10 +7,10 @@ import {
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
-import RestaurantPage from "../shared/components/restaurant-detail";
-import Modal from "../shared/components/modal";
 import { calculateAvgRating } from "../helpers/calculate-avg-rating";
+import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
+import Modal from "../shared/components/modal";
+import RestaurantPage from "../shared/components/restaurant-detail";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.restaurantId, "restaurantId not found");

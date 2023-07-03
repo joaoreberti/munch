@@ -13,9 +13,19 @@ export class RestaurantsFilter {
 export function getRestaurant({ id }: Pick<Restaurant, "id">) {
   return prisma.restaurant.findFirst({
     include: {
-      RestaurantReviews: { include: { user: true } },
+      RestaurantReviews: {
+        include: { user: true },
+        orderBy: { createdAt: "desc" },
+      },
       Cuisines: true,
-      Products: { include: { ProductReviews: { include: { user: true } } } },
+      Products: {
+        include: {
+          ProductReviews: {
+            include: { user: true },
+            orderBy: { createdAt: "desc" },
+          },
+        },
+      },
     },
     where: { id },
   });
@@ -25,7 +35,10 @@ export function getRestaurants(filter: RestaurantsFilter) {
   if (filter.cuisine?.length) {
     return prisma.restaurant.findMany({
       include: {
-        RestaurantReviews: { include: { user: true } },
+        RestaurantReviews: {
+          include: { user: true },
+          orderBy: { createdAt: "desc" },
+        },
         Cuisines: true,
       },
       orderBy: { updatedAt: "desc" },
@@ -35,7 +48,10 @@ export function getRestaurants(filter: RestaurantsFilter) {
 
   return prisma.restaurant.findMany({
     include: {
-      RestaurantReviews: { include: { user: true } },
+      RestaurantReviews: {
+        include: { user: true },
+        orderBy: { createdAt: "desc" },
+      },
       Cuisines: true,
     },
     orderBy: { updatedAt: "desc" },

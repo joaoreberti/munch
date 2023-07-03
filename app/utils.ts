@@ -2,6 +2,7 @@ import { useMatches, useOutletContext } from "@remix-run/react";
 import { useMemo } from "react";
 
 import type { User } from "~/models/user.server";
+import { ReviewType } from "./models/types/review-type.enum";
 
 const DEFAULT_REDIRECT = "/";
 
@@ -71,7 +72,7 @@ export function validateEmail(email: unknown): email is string {
 }
 
 type ContextType = {
-  modal: { open: boolean; id: string, type: "restaurant" | "product" | "" };
+  modal: { open: boolean; id: string; type: ReviewType | "" };
   setModal: ({
     open,
     id,
@@ -79,10 +80,9 @@ type ContextType = {
   }: {
     open: boolean;
     id: string;
-    type: "restaurant" | "product" | "";
+    type: ReviewType | "";
   }) => void;
 };
-
 
 export function useModal() {
   return useOutletContext<ContextType>();
@@ -91,4 +91,3 @@ export function useModal() {
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-

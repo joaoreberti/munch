@@ -13,7 +13,10 @@ export class ProductFilter {
 export function getProduct({ id }: Pick<Product, "id">) {
   return prisma.product.findFirst({
     include: {
-      ProductReviews: { include: { user: true } },
+      ProductReviews: {
+        include: { user: true },
+        orderBy: { createdAt: "desc" },
+      },
       restaurant: true,
     },
     where: { id },
@@ -24,7 +27,10 @@ export function getProducts(filter: ProductFilter) {
   if (filter.restaurantId) {
     return prisma.product.findMany({
       include: {
-        ProductReviews: { include: { user: true } },
+        ProductReviews: {
+          include: { user: true },
+          orderBy: { createdAt: "desc" },
+        },
         restaurant: true,
       },
       orderBy: { updatedAt: "desc" },

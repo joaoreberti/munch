@@ -1,20 +1,22 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Form } from "@remix-run/react";
 import { useState } from "react";
-import { classNames } from "../../utils";
+import { ReviewType } from "../../models/types/review-type.enum";
+import { classNames, useModal } from "../../utils";
 
-export default function CreateReview({
+export default function ReviewCreate({
   id,
   type,
 }: {
   id: string;
-  type: "restaurant" | "product" | "";
+  type: ReviewType | "";
 }) {
   const [rating, setRating] = useState(0);
+  const { modal, setModal } = useModal();
 
   return (
     <Form action="/review" method="post">
-      <h1>{type === "product" ? "Product" : "Restaurant"} Review</h1>
+      <h1>{type === ReviewType.product ? "Product" : "Restaurant"} Review</h1>
       <input type="hidden" name="redirectTo" defaultValue={`/${type}s/${id}`} />
       <input name="id" id="id" hidden defaultValue={id} />
       <input name="type" id="type" hidden defaultValue={type} />
@@ -40,10 +42,17 @@ export default function CreateReview({
         Add your rating
       </label>
       <div className="mt-4 flex items-center">
-        <input type="number" defaultValue={rating} name="rating" hidden />
+        <input
+          type="text"
+          value={rating}
+          onChange={(e) => {}}
+          name="rating"
+          hidden
+        />
         {[0, 1, 2, 3, 4].map((star) => (
           <StarIcon
             key={star}
+            data-testid={`rating-${star}`}
             className={classNames(
               rating > star ? "text-yellow-400" : "text-gray-300",
               "h-5 w-5 flex-shrink-0"
@@ -57,10 +66,14 @@ export default function CreateReview({
       <div className="mt-2">rating goes here</div>
       <div className="mt-5 sm:mt-6">
         <button
+          data-testid="submit-review"
+          onClick={() => {
+            setModal({ ...modal, open: false });
+          }}
           type="submit"
           className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Go back to dashboard
+          Add review
         </button>
       </div>
     </Form>

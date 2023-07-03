@@ -3,6 +3,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { classNames, useModal } from "../../utils";
 import { Link } from "@remix-run/react";
+import { ReviewType } from "../../models/types/review-type.enum";
 
 export default function ProductPage({
   product,
@@ -101,8 +102,13 @@ export default function ProductPage({
                 </button>
               </Link>
               <button
+                data-testid="product-detail-review-button"
                 onClick={() =>
-                  setModal({ open: true, id: product.id, type: "product" })
+                  setModal({
+                    open: true,
+                    id: product.id,
+                    type: ReviewType.product,
+                  })
                 }
                 type="button"
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"

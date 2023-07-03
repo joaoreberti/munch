@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { Cuisines } from "../../models/types/cuisine-enum";
+import { Cuisines } from "../../models/types/cuisine.enum";
 import { Form } from "@remix-run/react";
 import { classNames } from "../../utils";
 

@@ -1,9 +1,8 @@
-import RatingsWidget from "./ratings-widgent";
+import RatingsWidget from "./ratings-widget";
 import ReviewDetail from "./review-detail";
 
 export default function RestaurantCard({
   restaurant,
-  addReview
 }: {
   restaurant: {
     restaurantAvgRating: string;
@@ -30,7 +29,6 @@ export default function RestaurantCard({
       name: string;
     }[];
   };
-  addReview: boolean;
 }) {
   return (
     <li
@@ -69,12 +67,7 @@ export default function RestaurantCard({
           <>
             <hr />
             <ReviewDetail
-              addReview={addReview}
-              review={
-                restaurant.RestaurantReviews[
-                  restaurant.RestaurantReviews.length - 1
-                ]
-              }
+              review={restaurant.RestaurantReviews[0]}
             />
           </>
         )}
