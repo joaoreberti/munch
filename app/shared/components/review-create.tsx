@@ -17,9 +17,9 @@ export default function CreateReview({
   return (
     <Form action="/review" method="post">
       <h1>{type === "product" ? "Product" : "Restaurant"} Review</h1>
-      <input type="hidden" name="redirectTo" value={`/${type}s/${id}`} />
-      <input name="id" id="id" hidden value={id} />
-      <input name="type" id="type" hidden value={type} />
+      <input type="hidden" name="redirectTo" defaultValue={`/${type}s/${id}`} />
+      <input name="id" id="id" hidden defaultValue={id} />
+      <input name="type" id="type" hidden defaultValue={type} />
       <label
         htmlFor="comment"
         className="block text-sm font-medium leading-6 text-gray-900"
@@ -42,7 +42,7 @@ export default function CreateReview({
         Add your rating
       </label>
       <div className="mt-4 flex items-center">
-        <input type="number" value={rating} name="rating" hidden />
+        <input type="number" defaultValue={rating} name="rating" hidden />
         {[0, 1, 2, 3, 4].map((star) => (
           <StarIcon
             key={star}

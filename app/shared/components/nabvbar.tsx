@@ -1,23 +1,16 @@
-import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Form } from "@remix-run/react";
-
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
+import { Fragment } from "react";
+import { useUser } from "../../utils";
 
 const userNavigation: {
   name: string;
   action: string;
   method: "get" | "post" | "put" | "delete" | "patch";
 }[] = [
-  { name: "Your Profile", action: "#", method: "get" },
-  { name: "Settings", action: "#", method: "get" },
+  { name: "Your Profile", action: "/profile", method: "get" },
   { name: "Sign out", action: "/logout", method: "post" },
 ];
 
@@ -26,8 +19,9 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
+  const user = useUser();
   return (
-    <Disclosure as="header" className="bg-yellow-800 sticky top-0 z-50" >
+    <Disclosure as="header" className="sticky top-0 z-50 bg-yellow-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-yellow-700 lg:px-8">
@@ -65,9 +59,7 @@ export default function NavBar() {
                   </div>
                 </div>
               </div>
-              <div
-                className="relative z-10 flex items-center lg:hidden"
-              >
+              <div className="relative z-10 flex items-center lg:hidden">
                 {/* Mobile menu button */}
 
                 <Disclosure.Button
@@ -98,7 +90,7 @@ export default function NavBar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={user.imageUrl}
+                        src={`https://ui-avatars.com/api/?name=${user.name}&background=random`}
                         alt=""
                       />
                     </Menu.Button>
@@ -123,7 +115,6 @@ export default function NavBar() {
                             >
                               <button
                                 type="submit"
-                                name={item.name}
                                 className={classNames(
                                   active ? "bg-yellow-100" : "",
                                   "block w-full px-4 py-2 text-left text-sm text-yellow-700"
@@ -142,13 +133,17 @@ export default function NavBar() {
             </div>
           </div>
 
-          <Disclosure.Panel as="nav" className="lg:hidden sticky top-0 z-50" aria-label="Global">
+          <Disclosure.Panel
+            as="nav"
+            className="sticky top-0 z-50 lg:hidden"
+            aria-label="Global"
+          >
             <div className="border-t border-yellow-700 pb-3 pt-4">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={user.imageUrl}
+                    src={`https://ui-avatars.com/api/?name=${user.name}&background=random`}
                     alt=""
                   />
                 </div>
@@ -165,7 +160,7 @@ export default function NavBar() {
                   className="ml-auto flex-shrink-0 rounded-full bg-yellow-800 p-1 text-yellow-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800"
                 >
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                 </button>
               </div>
               <div className="mt-3 space-y-1 px-2">
@@ -177,7 +172,6 @@ export default function NavBar() {
                   >
                     <button
                       type="submit"
-                      name={item.name}
                       className="rounded bg-yellow-600 px-4 py-2 text-blue-100 hover:bg-yellow-500 active:bg-yellow-600"
                     >
                       {item.name}
