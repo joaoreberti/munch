@@ -16,7 +16,21 @@ export async function createUser(email: User["email"], name: User["name"]) {
   return prisma.user.create({
     data: {
       email,
-      name
+      name,
+    },
+  });
+}
+
+export async function getUserReviews(id: User["id"]) {
+  return prisma.user.findFirst({
+    include: {
+      ProductReview: {
+        include: { product: { include: { restaurant: true } } },
+      },
+      RestaurantReview: { include: { restaurant: true } },
+    },
+    where: {
+      id,
     },
   });
 }

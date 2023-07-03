@@ -1,5 +1,14 @@
 import type { Product } from "@prisma/client";
 import { prisma } from "~/db.server";
+import { removeNullValues } from "./utils";
+
+export class ProductFilter {
+  restaurantId?: string | null;
+
+  static asQuery(filter: ProductFilter): any {
+    return removeNullValues(filter);
+  }
+}
 
 export function getProduct({ id }: Pick<Product, "id">) {
   return prisma.product.findFirst({
@@ -11,7 +20,19 @@ export function getProduct({ id }: Pick<Product, "id">) {
   });
 }
 
-export function getProducts() {
+export function getProducts(filter: ProductFilter) {
+  console.log("filter", filter);
+  if (filter.restaurantId) {
+    return prisma.product.findMany({
+      include: {
+        ProductReviews: { include: { user: true } },
+        restaurant: true,
+      },
+      orderBy: { updatedAt: "desc" },
+      where: { restaurantId: filter.restaurantId },
+    });
+  }
+
   return prisma.product.findMany({
     include: {
       ProductReviews: { include: { user: true } },

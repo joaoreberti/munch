@@ -2,6 +2,7 @@ import { Tab } from "@headlessui/react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { useModal } from "../../utils";
+import { Link } from "@remix-run/react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -97,13 +98,14 @@ export default function ProductPage({
             <p className="mt-6 text-gray-500">{product.description}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <button
-                disabled={true}
-                type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 disabled:opacity-50"
-              >
-                Order €{product.price.toFixed(2)}
-              </button>
+              <Link to={`/products?restaurantId=${product.restaurantId}`}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 "
+                >
+                  Other items from this restaurant
+                </button>
+              </Link>
               <button
                 onClick={() =>
                   setModal({ open: true, id: product.id, type: "product" })

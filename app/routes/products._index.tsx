@@ -1,10 +1,17 @@
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getProducts } from "../models/product.server";
+import { ProductFilter, getProducts } from "../models/product.server";
 import ProductList from "../shared/components/product-list";
 
-export const loader = async () => {
-  const productList = await getProducts();
+export const loader = async ({ request }: LoaderArgs) => {
+  const url = new URL(request.url);
+
+  const restaurantId = url.searchParams.get("restaurantId");
+  console.log({ restaurantId });
+  const productList = await getProducts(
+    ProductFilter.asQuery({ restaurantId })
+  );
 
   const productListItems = productList.map((product) => {
     const productAvgRating = (

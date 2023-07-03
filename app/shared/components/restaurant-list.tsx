@@ -1,4 +1,4 @@
-import { NavLink } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import RestaurantCard from "./restaurant-card";
 
 export default function RestaurantList({
@@ -31,7 +31,7 @@ export default function RestaurantList({
   return (
     <ul className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {restaurants.map((restaurant, index) => (
-        <NavLink
+        <Link
           data-testid={`restaurant-link-${index}`}
           key={restaurant.id}
           to={restaurant.id}
@@ -40,7 +40,7 @@ export default function RestaurantList({
             addReview={false}
             restaurant={restaurant}
           ></RestaurantCard>
-        </NavLink>
+        </Link>
       ))}
     </ul>
   );
