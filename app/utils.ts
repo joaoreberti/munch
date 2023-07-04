@@ -2,7 +2,7 @@ import { useMatches, useOutletContext } from "@remix-run/react";
 import { useMemo } from "react";
 
 import type { User } from "~/models/user.server";
-import { ReviewType } from "./models/types/review-type.enum";
+import type { ReviewType } from "./models/types/review-type.enum";
 
 const DEFAULT_REDIRECT = "/";
 

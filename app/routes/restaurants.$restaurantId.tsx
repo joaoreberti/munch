@@ -1,5 +1,5 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
@@ -8,9 +8,10 @@ import {
 import invariant from "tiny-invariant";
 
 import { calculateAvgRating } from "../helpers/calculate-avg-rating";
-import { deleteRestaurant, getRestaurant } from "../models/restaurant.server";
+import { getRestaurant } from "../models/restaurant.server";
 import Modal from "../shared/components/modal";
 import RestaurantPage from "../shared/components/restaurant-detail";
+import ErrorPage from "../shared/components/not-found";
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.restaurantId, "restaurantId not found");
@@ -41,14 +42,6 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-export const action = async ({ params, request }: ActionArgs) => {
-  invariant(params.restaurantId, "restaurantId not found");
-
-  await deleteRestaurant({ id: params.restaurantId });
-
-  return redirect("/restaurants");
-};
-
 export default function RestaurantDetailsPage() {
   const data = useLoaderData<typeof loader>();
 
@@ -66,16 +59,40 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (error instanceof Error) {
-    return <div>An unexpected error occurred: {error.message}</div>;
+    return (
+      <ErrorPage
+        errorCode={500}
+        title="Internal Server Error"
+        message={`An unexpected error occurred: ${error.message}`}
+      ></ErrorPage>
+    );
   }
 
   if (!isRouteErrorResponse(error)) {
-    return <h1>Unknown Error</h1>;
+    return (
+      <ErrorPage
+        errorCode={500}
+        title="Internal Server Error"
+        message="Unknown error"
+      ></ErrorPage>
+    );
   }
 
   if (error.status === 404) {
-    return <div>Restaurant not found</div>;
+    return (
+      <ErrorPage
+        errorCode={404}
+        title="Page not found"
+        message="Restaurant not found"
+      ></ErrorPage>
+    );
   }
 
-  return <div>An unexpected error occurred: {error.statusText}</div>;
+  return (
+    <ErrorPage
+      errorCode={500}
+      title="Internal Server Error"
+      message={`An unexpected error occurred: ${error.statusText}`}
+    ></ErrorPage>
+  );
 }

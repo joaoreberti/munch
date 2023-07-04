@@ -73,9 +73,3 @@ export function createRestaurant({
     },
   });
 }
-
-export function deleteRestaurant({ id }: Pick<Restaurant, "id">) {
-  return prisma.restaurant.deleteMany({
-    where: { id },
-  });
-}
