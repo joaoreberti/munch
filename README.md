@@ -2,6 +2,7 @@
 - Hi, I'm João Reberti and first of all let me say I had a lot of fun developing this app. 🥳
 - This fullstack app was made possible via [Remix's Indie Stack](./Remix-README.md)
 - The app is reachable at https://smunch-e712.fly.dev/
+  - Fly was already implemented and setting it up was a breeze. Plus it was free host and database (which is nothing more than a file but I digress).
 - Just register a new account and have fun finding any bugs 🐞
 
 ## Goal
@@ -16,6 +17,8 @@
   - Vitest
   - Prisma
   - SQLite
+  - Fly
+  - Github actions
 
 ## Features
 

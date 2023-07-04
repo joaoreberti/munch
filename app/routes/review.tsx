@@ -45,7 +45,6 @@ export const action = async ({ request }: ActionArgs) => {
       restaurantId: id,
     });
   }
-  console.log({ reviewAttributes });
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   return redirect(redirectTo);
