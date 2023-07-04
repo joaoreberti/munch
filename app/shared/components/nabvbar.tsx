@@ -9,7 +9,7 @@ const userNavigation: {
   action: string;
   method: "get" | "post" | "put" | "delete" | "patch";
 }[] = [
-  { name: "Your Profile", action: "/profile", method: "get" },
+  { name: "Profile", action: "/profile", method: "get" },
   { name: "Sign out", action: "/logout", method: "post" },
 ];
 

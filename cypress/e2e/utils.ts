@@ -25,3 +25,18 @@ export function userLogout() {
   cy.findByRole("button", { name: /Sign out/i }).click();
   cy.findByRole("link", { name: /log in/i });
 }
+
+export function createReview() {
+  cy.findByRole("link", { name: /restaurants/i }).click();
+  cy.findByTestId("restaurant-link-0").click();
+  cy.findByTestId("restaurant-menu-button").click();
+  cy.findByTestId("product-link-0").click();
+  cy.findByTestId("product-detail-review-button").click();
+
+  const comment = "lorem ipsum - comment" + Math.floor(Math.random() * 100);
+  cy.findByRole("textbox", { name: /comment/i }).type(comment);
+
+  cy.findByTestId("rating-4").click();
+  cy.findByTestId("submit-review").click();
+  cy.findByText(comment);
+}
